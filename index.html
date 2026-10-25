@@ -231,6 +231,13 @@ document.addEventListener('DOMContentLoaded',()=>{
      if(data.success!==true&&data.success!=='true')throw new Error('Delivery not confirmed');
     })();
     await Promise.race([delivery,deadline]);
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          form_type: appointment ? 'appointment' : 'contact'
+        });
+      }
+    } catch (_) {}
     form.reset();translate(status,'Request sent.','अनुरोध भेज दिया गया।');
     if(appointment){document.getElementById('ssa-booking-overlay').hidden=true;document.body.style.overflow='';lastFocus=document.querySelector('a[href="#appointment"]');}
     show('success');
