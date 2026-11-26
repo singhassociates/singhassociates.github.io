@@ -604,4 +604,16 @@ document.querySelectorAll('a[href="appointment.html"]').forEach(link => {
   }).observe(scene);
 })();
 </script>
+<script>
+  // Track contact button clicks without sending contact details.
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[href]');
+    if (!link || typeof window.gtag !== 'function') return;
+    if (link.protocol === 'tel:') {
+      window.gtag('event', 'phone_click');
+    } else if (link.hostname === 'wa.me') {
+      window.gtag('event', 'whatsapp_click');
+    }
+  });
+</script>
 </body></html>
